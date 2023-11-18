@@ -28,84 +28,124 @@
         /// </summary>
         private void InitializeComponent()
         {
-            splitContainer1 = new SplitContainer();
-            sessionList = new ListBox();
-            btnSelectTheme = new Button();
-            btnSetDefault = new Button();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
+            themeSplitContainer = new SplitContainer();
+            themeList = new ListBox();
+            themeContentPanel = new TableLayoutPanel();
+            themeControlPanel = new FlowLayoutPanel();
+            btnApply = new Button();
+            webView = new Microsoft.Web.WebView2.WinForms.WebView2();
+            ((System.ComponentModel.ISupportInitialize)themeSplitContainer).BeginInit();
+            themeSplitContainer.Panel1.SuspendLayout();
+            themeSplitContainer.Panel2.SuspendLayout();
+            themeSplitContainer.SuspendLayout();
+            themeContentPanel.SuspendLayout();
+            themeControlPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)webView).BeginInit();
             SuspendLayout();
             // 
-            // splitContainer1
+            // themeSplitContainer
             // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 0);
-            splitContainer1.Name = "splitContainer1";
+            themeSplitContainer.Dock = DockStyle.Fill;
+            themeSplitContainer.FixedPanel = FixedPanel.Panel1;
+            themeSplitContainer.Location = new Point(0, 0);
+            themeSplitContainer.Name = "themeSplitContainer";
             // 
-            // splitContainer1.Panel1
+            // themeSplitContainer.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(sessionList);
+            themeSplitContainer.Panel1.Controls.Add(themeList);
             // 
-            // splitContainer1.Panel2
+            // themeSplitContainer.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(btnSelectTheme);
-            splitContainer1.Panel2.Controls.Add(btnSetDefault);
-            splitContainer1.Size = new Size(800, 450);
-            splitContainer1.SplitterDistance = 266;
-            splitContainer1.TabIndex = 0;
+            themeSplitContainer.Panel2.Controls.Add(themeContentPanel);
+            themeSplitContainer.Size = new Size(800, 450);
+            themeSplitContainer.SplitterDistance = 266;
+            themeSplitContainer.TabIndex = 0;
             // 
-            // sessionList
+            // themeList
             // 
-            sessionList.Dock = DockStyle.Fill;
-            sessionList.FormattingEnabled = true;
-            sessionList.ItemHeight = 15;
-            sessionList.Location = new Point(0, 0);
-            sessionList.Name = "sessionList";
-            sessionList.Size = new Size(266, 450);
-            sessionList.TabIndex = 0;
+            themeList.Dock = DockStyle.Fill;
+            themeList.FormattingEnabled = true;
+            themeList.ItemHeight = 15;
+            themeList.Location = new Point(0, 0);
+            themeList.Name = "themeList";
+            themeList.Size = new Size(266, 450);
+            themeList.TabIndex = 0;
+            themeList.SelectedIndexChanged += themeList_SelectedIndexChanged;
             // 
-            // btnSelectTheme
+            // themeContentPanel
             // 
-            btnSelectTheme.Location = new Point(84, 3);
-            btnSelectTheme.Name = "btnSelectTheme";
-            btnSelectTheme.Size = new Size(95, 23);
-            btnSelectTheme.TabIndex = 1;
-            btnSelectTheme.Text = "Select Theme";
-            btnSelectTheme.UseVisualStyleBackColor = true;
-            btnSelectTheme.Click += btnSelectTheme_Click;
+            themeContentPanel.ColumnCount = 1;
+            themeContentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            themeContentPanel.Controls.Add(themeControlPanel, 0, 0);
+            themeContentPanel.Controls.Add(webView, 0, 1);
+            themeContentPanel.Dock = DockStyle.Fill;
+            themeContentPanel.Location = new Point(0, 0);
+            themeContentPanel.Name = "themeContentPanel";
+            themeContentPanel.RowCount = 2;
+            themeContentPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            themeContentPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            themeContentPanel.Size = new Size(530, 450);
+            themeContentPanel.TabIndex = 2;
             // 
-            // btnSetDefault
+            // themeControlPanel
             // 
-            btnSetDefault.Location = new Point(3, 3);
-            btnSetDefault.Name = "btnSetDefault";
-            btnSetDefault.Size = new Size(75, 23);
-            btnSetDefault.TabIndex = 0;
-            btnSetDefault.Text = "Set Default";
-            btnSetDefault.UseVisualStyleBackColor = true;
+            themeControlPanel.Controls.Add(btnApply);
+            themeControlPanel.Dock = DockStyle.Fill;
+            themeControlPanel.Location = new Point(3, 3);
+            themeControlPanel.Name = "themeControlPanel";
+            themeControlPanel.Size = new Size(524, 29);
+            themeControlPanel.TabIndex = 0;
+            // 
+            // btnApply
+            // 
+            btnApply.Enabled = false;
+            btnApply.Location = new Point(3, 3);
+            btnApply.Name = "btnApply";
+            btnApply.Size = new Size(95, 23);
+            btnApply.TabIndex = 1;
+            btnApply.Text = "Apply";
+            btnApply.UseVisualStyleBackColor = true;
+            btnApply.Click += btnApply_Click;
+            // 
+            // webView
+            // 
+            webView.AllowExternalDrop = true;
+            webView.CreationProperties = null;
+            webView.DefaultBackgroundColor = Color.White;
+            webView.Dock = DockStyle.Fill;
+            webView.Location = new Point(3, 38);
+            webView.Name = "webView";
+            webView.Size = new Size(524, 409);
+            webView.Source = new Uri("https://putty.org.ru/themes/", UriKind.Absolute);
+            webView.TabIndex = 1;
+            webView.ZoomFactor = 1D;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(splitContainer1);
+            Controls.Add(themeSplitContainer);
             Name = "Form1";
             Text = "PuTTY Color Theme GUI";
             Load += Form1_Load;
-            splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
+            themeSplitContainer.Panel1.ResumeLayout(false);
+            themeSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)themeSplitContainer).EndInit();
+            themeSplitContainer.ResumeLayout(false);
+            themeContentPanel.ResumeLayout(false);
+            themeControlPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)webView).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private SplitContainer splitContainer1;
-        private ListBox sessionList;
-        private Button btnSetDefault;
-        private Button btnSelectTheme;
+        private SplitContainer themeSplitContainer;
+        private ListBox themeList;
+        private Button btnApply;
+        private TableLayoutPanel themeContentPanel;
+        private FlowLayoutPanel themeControlPanel;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView;
     }
 }
