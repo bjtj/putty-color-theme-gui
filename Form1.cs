@@ -85,6 +85,7 @@ namespace putty_color_theme_gui
             {
                 // Read the contents of testDialog's TextBox.
                 // this.txtResult.Text = testDialog.TextBox1.Text;
+                MessageBox.Show("Success", "Apply Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {

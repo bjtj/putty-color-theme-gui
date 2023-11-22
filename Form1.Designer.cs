@@ -65,6 +65,7 @@
             // 
             themeList.Dock = DockStyle.Fill;
             themeList.FormattingEnabled = true;
+            themeList.IntegralHeight = false;
             themeList.ItemHeight = 15;
             themeList.Location = new Point(0, 0);
             themeList.Name = "themeList";

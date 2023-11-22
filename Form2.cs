@@ -28,6 +28,7 @@ namespace putty_color_theme_gui
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+            DialogResult = DialogResult.Cancel;
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -78,7 +79,8 @@ namespace putty_color_theme_gui
                 }
             }
 
-            MessageBox.Show("DONE");
+            Close();
+            DialogResult = DialogResult.OK;
         }
 
         private void btnSelectAll_Click(object sender, EventArgs e)

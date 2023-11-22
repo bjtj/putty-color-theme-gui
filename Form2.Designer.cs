@@ -62,6 +62,7 @@
             // 
             sessionList.Dock = DockStyle.Fill;
             sessionList.FormattingEnabled = true;
+            sessionList.IntegralHeight = false;
             sessionList.ItemHeight = 15;
             sessionList.Location = new Point(3, 38);
             sessionList.Name = "sessionList";
@@ -138,6 +139,7 @@
             ClientSize = new Size(239, 372);
             Controls.Add(mainTable);
             Name = "PuttySessionListForm";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "PuTTY Sessions";
             Load += Form2_Load;
             mainTable.ResumeLayout(false);
