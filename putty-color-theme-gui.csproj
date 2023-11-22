@@ -21,5 +21,8 @@
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
     <Copy SourceFiles="@(ThemesFiles)" DestinationFolder="$(OutDir)\themes" />
   </Target>
+  <Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
+    <Copy SourceFiles="@(ThemesFiles)" DestinationFolder="$(PublishDir)\themes" />
+  </Target>
 
 </Project>
