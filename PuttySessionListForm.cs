@@ -17,12 +17,12 @@ namespace putty_color_theme_gui
     {
 
         private List<Session> sessions = new List<Session>();
-        private Theme theme;
+        private Theme selectedTheme;
 
         public PuttySessionListForm(Theme theme)
         {
             InitializeComponent();
-            this.theme = theme;
+            this.selectedTheme = theme;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -33,30 +33,17 @@ namespace putty_color_theme_gui
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            this.sessions = ListPuttySessions();
+            UpdateSessions();
+        }
+
+        private void UpdateSessions()
+        {
+            this.sessions = Core.getInstance().GetPuttySessionList();
 
             foreach (var session in this.sessions)
             {
                 sessionList.Items.Add(session.Name);
             }
-        }
-
-        static List<Session> ListPuttySessions()
-        {
-            // https://stackoverflow.com/a/44952225/5676460
-
-            var names = new List<Session>();
-
-            var key = Registry.CurrentUser.OpenSubKey("Software\\SimonTatham\\PuTTY\\Sessions");
-            if (key is not null)
-            {
-                foreach (var name in key.GetSubKeyNames())
-                {
-                    System.Console.WriteLine(name);
-                    names.Add(new Session(WebUtility.UrlDecode(name), name));
-                }
-            }
-            return names;
         }
 
         private void sessionList_SelectedIndexChanged(object sender, EventArgs e)
@@ -72,11 +59,7 @@ namespace putty_color_theme_gui
             foreach (var index in indices)
             {
                 var session = sessions[index];
-                foreach (var prop in this.theme.Properties)
-                {
-                    String prefix = $"HKEY_CURRENT_USER\\Software\\SimonTatham\\PuTTY\\Sessions\\{session.Key}";
-                    Registry.SetValue(prefix, prop.Key, prop.Value);
-                }
+                Core.getInstance().SetPuttySessionTheme(session, selectedTheme);
             }
 
             Close();

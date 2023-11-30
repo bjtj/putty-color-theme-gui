@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="putty_color_theme_gui.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PuttyLocationDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\PuTTY\</Value>
+    </Setting>
+    <Setting Name="PuttySessionRegistrySubPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Software\SimonTatham\PuTTY\Sessions</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

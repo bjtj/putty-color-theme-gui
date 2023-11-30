@@ -1,25 +1,39 @@
-using Microsoft.Win32;
-using System.Web;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace putty_color_theme_gui
 {
-    public partial class Form1 : Form
+    internal class Core
     {
-        public Form1()
+        private static readonly Core Instance = new Core();
+        public List<Theme> ThemeList { get; private set; }
+
+        private Core()
         {
-            InitializeComponent();
+            ThemeList = GetThemeLIst();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public static Core getInstance()
         {
-            var themes = ListThemes();
-            foreach (var theme in themes)
-            {
-                themeList.Items.Add(theme.Name);
-            }
+            return Instance;
         }
 
-        static List<Theme> ListThemes()
+        public string GetPuttyLocation()
+        {
+            return Properties.Settings.Default.PuttyLocationDir;
+        }
+
+        public bool CheckIfPuttyInstalled()
+        {
+            return File.Exists(GetPuttyLocation());
+        }
+
+        public List<Theme> GetThemeLIst()
         {
             var themes = new List<Theme>();
             themes.Add(new Theme("01. Apple Terminal", "https://putty.org.ru/themes/apple-terminal"));
@@ -75,32 +89,30 @@ namespace putty_color_theme_gui
             return themes;
         }
 
-        private void btnApply_Click(object sender, EventArgs e)
+        public List<Session> GetPuttySessionList()
         {
-            Theme theme = ListThemes()[themeList.SelectedIndex];
-            PuttySessionListForm testDialog = new PuttySessionListForm(theme);
+            // https://stackoverflow.com/a/44952225/5676460
 
-            // Show testDialog as a modal dialog and determine if DialogResult = OK.
-            if (testDialog.ShowDialog(this) == DialogResult.OK)
+            var names = new List<Session>();
+
+            var key = Registry.CurrentUser.OpenSubKey(Properties.Settings.Default.PuttySessionRegistrySubPath);
+            if (key is not null)
             {
-                // Read the contents of testDialog's TextBox.
-                // this.txtResult.Text = testDialog.TextBox1.Text;
-                MessageBox.Show("Success", "Apply Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                foreach (var name in key.GetSubKeyNames())
+                {
+                    names.Add(new Session(WebUtility.UrlDecode(name), name));
+                }
             }
-            else
-            {
-                // this.txtResult.Text = "Cancelled";
-            }
-            testDialog.Dispose();
+            return names;
         }
 
-        private void themeList_SelectedIndexChanged(object sender, EventArgs e)
+        public void SetPuttySessionTheme(Session session, Theme theme)
         {
-            int index = themeList.SelectedIndex;
-            var themes = ListThemes();
-            var url = themes[index].Url;
-            webView.Source = new Uri(url);
-            btnApply.Enabled = true;
+            foreach (var prop in theme.Properties)
+            {
+                String prefix = $"HKEY_CURRENT_USER\\{Properties.Settings.Default.PuttySessionRegistrySubPath}\\{session.Key}";
+                Registry.SetValue(prefix, prop.Key, prop.Value);
+            }
         }
     }
 }
